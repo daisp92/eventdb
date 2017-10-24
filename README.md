@@ -14,8 +14,7 @@
 hbase只有字符类型，但是数字的大小顺序和字符顺序不匹配，导致针对属性值的范围搜索失效。为了使数字的大小顺序和字符顺序匹配，对数字进行编码。c代码./c/TyperSer.c可以对整数和浮点数进行编码。./python/lib/TyperSer.so是编译生成的动态链接。
 
 ## eventdb存储结构
-为了加快生成hbase数据表的速度，将生成的倒排索引存储在hdfs文件中，hbase表结构为rowkey, data:run, data:offset, data:length, data:count。一个run生成一个hdfs数据文件，data:run指向这个文件名，data:offset指向当前rowkey的倒排索引字符串在文件中的偏移量，data:length说明字符串的长度，data:count说明有多少个entryID。所以查询的时候先在hbase中查询，再通过offset等文件信息在hdfs文件中读取倒排索引。
-![eventdb存储结构](http://img.blog.csdn.net/20171023200529849?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGVsbG94aXl1ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+为了加快生成hbase数据表的速度，将生成的倒排索引存储在hdfs文件中，hbase表结构为rowkey, data:run, data:offset, data:length, data:count。一个run生成一个hdfs数据文件，data:run指向这个文件名，data:offset指向当前rowkey的倒排索引字符串在文件中的偏移量，data:length说明字符串的长度，data:count说明有多少个entryID。所以查询的时候先在hbase中查询，再通过offset等文件信息在hdfs文件中读取倒排索引。![eventdb存储结构](http://img.blog.csdn.net/20171024114336587?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGVsbG94aXl1ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
 
 ## hbase数据表
 脚本./python/create_table新建hbase数据表。命令格式：./create_talbe 'table-name'
