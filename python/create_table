@@ -1,0 +1,23 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import sys
+import os
+import ROOT
+import struct
+import happybase
+from datetime import datetime,timedelta
+
+batch_size = 1000
+host = "127.0.0.1"
+port = 9090
+namespace = "HEP"
+row_count = 0
+start_time = datetime.now()
+new_table = sys.argv[1]
+
+conn = happybase.Connection(host = host, port = port, table_prefix = namespace, table_prefix_separator = ":")
+
+conn.create_table(new_table,{'data': dict(max_versions=1)})
+
+print "Connect to HBase. table '%s' has been created." %(new_table)

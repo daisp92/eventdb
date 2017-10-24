@@ -2,7 +2,10 @@
 面向高能物理的大数据管理系统
 
 ## eventdb存储结构
-![这里写图片描述](http://img.blog.csdn.net/20171023200529849?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGVsbG94aXl1ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+![eventdb存储结构](http://img.blog.csdn.net/20171023200529849?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvaGVsbG94aXl1ZQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast)
+
+## hbase数据表
+脚本./python/create_table新建hbase数据表。命令格式：./create_talbe 'table-name'
 
 ## root分析
 脚本./python/run2data分析root文件，同一个run下的root文件建立事例倒排索引。脚本支持多线程并行，命令格式：./run2data 'root-dir-path' 'save-dir-path' 'multiprocessing-num'
