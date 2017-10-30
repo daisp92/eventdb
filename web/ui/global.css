@@ -1,0 +1,116 @@
+html{
+	background: #eee;
+	height: 100%;
+}
+
+body{
+	min-height: 100%;
+	position: relative;
+}
+
+.header-index{
+	background: #393D49;
+}
+
+.header-index .layui-nav{
+	float: right;
+}
+
+.header-index .layui-form{
+	float: left;
+	height: 60px;
+	padding: 15px;
+	width: 200px;
+}
+
+.header-index .layui-input{
+    height: 30px;
+    padding-left: 12px;
+    background-color: #424652;
+    background-color: rgba(255,255,255,.05);
+    border: none 0;
+    color: #fff;
+    font-size: 12px;
+}
+
+.ff-en{
+	font-family: "Times New Roman", "Arial", "PmingLiu"
+}
+
+.tc-gray{
+	color: #666;
+}
+
+.tc-primary{
+	color: #5FB878;
+}
+
+.header-index .logo{
+	float: left;
+	color: #fff;
+	display: block;
+	height: 60px;
+	line-height: 60px;
+	font-size: 25px;
+}
+
+.footer{
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	text-align: center;
+	line-height: 30px;
+    color: #666;
+	font-weight: 300;
+}
+
+.layui-form-item.form-inline .layui-anim-upbit{
+	top: 47px;
+}
+
+.layui-form-item.form-inline .layui-input-inline{
+	margin-right: 0;
+}
+
+.layui-form-item.form-inline .layui-input-inline:not(first-child){
+	margin-right: -2px;
+}
+
+.layui-form-item.form-inline input{
+	height: 45px;
+	border-width: 2px !important;
+	border-radius: 0 !important;
+}
+
+.layui-form-item.form-inline input:focus{
+	border-color: #5FB878 !important;
+}
+
+.layui-form-item.form-inline.focus input{
+	border-color: #5FB878 !important;
+}
+
+.input-icon{
+	position: absolute;
+	right: 0;
+	line-height: 45px;
+	font-size: 23px;
+	color: #666;
+	cursor: pointer;
+}
+
+.input-icon:hover{
+	color: #333;
+}
+
+.layui-tab-title .layui-this {
+    color: #5FB878;
+}
+
+.layui-tab-title .layui-this:after{
+	border-bottom-color: #eee;
+}
+
+.layui-tab-content{
+	padding: 0px;
+}
