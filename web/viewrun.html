@@ -14,34 +14,39 @@
 <body>
 	<script src="layui/layui.js"></script>
 	<script>
-		window.runInfoAddData = {};
+		function reloadRunAdd(table) {
+			var dataarr = [];
+			var runInfoAddData = layui.data('eventdb');
+			for (var key in runInfoAddData)
+				dataarr.push(runInfoAddData[key]);
+			table.reload('runInfoAdd', {
+				'data': dataarr
+			});
+		};
 		layui.use(['layer', 'form', 'element', 'table'], function () {
 			var layer = layui.layer,
 				form = layui.form,
 				element = layui.element,
 				table = layui.table;
+			reloadRunAdd(table);
 			table.on('tool(runInfo)', function (e) {
 				if (e.event == 'add') {
 					var data = e.data;
-					window.runInfoAddData[data.rowkey] = data;
-					dataarr = [];
-					for (var key in window.runInfoAddData)
-						dataarr.push(window.runInfoAddData[key]);
-					table.reload('runInfoAdd', {
-						'data': dataarr
+					layui.data('eventdb', {
+						key: data.rowkey,
+						value: data
 					});
+					reloadRunAdd(table);
 				}
 			});
 			table.on('tool(runInfoAdd)', function (e) {
 				if (e.event == 'del') {
 					var data = e.data;
-					delete window.runInfoAddData[data.rowkey];
-					dataarr = [];
-					for (var key in window.runInfoAddData)
-						dataarr.push(window.runInfoAddData[key]);
-					table.reload('runInfoAdd', {
-						'data': dataarr
+					layui.data('eventdb', {
+						key: data.rowkey,
+						remove: true
 					});
+					reloadRunAdd(table);
 				}
 			});
 			$('#tableReload').click(function () {
@@ -56,9 +61,7 @@
 	<div class="layui-header header header-index">
 		<div class="layui-main layui-row">
 			<a href="" class="logo ff-en">
-				<span>
-					<span class="tc-primary">E</span>vent
-					<span class="tc-primary">D</span>B</span>
+				<span><span class="tc-primary">E</span>vent<span class="tc-primary">D</span>B</span>
 			</a>
 			<form class="layui-form" id="searchInfo" action="">
 				<input type="text" placeholder="搜索数据表或run号" value="" class="layui-input">
@@ -69,9 +72,6 @@
 				</li>
 				<li class="layui-nav-item layui-this">
 					<a href="">查看RUN</a>
-				</li>
-				<li class="layui-nav-item">
-					<a href="">查看PROPERTY</a>
 				</li>
 				<li class="layui-nav-item">
 					<a href="">查询历史</a>

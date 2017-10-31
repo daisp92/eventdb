@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<title> 事例数据库EventDB - 面向高能物理的大数据管理系统</title>
+	<link rel="stylesheet" href="layui/css/layui.css">
+	<link rel="stylesheet" href="ui/global.css">
+	<script src="layui/layui.js"></script>
+	<script src="ui/jquery-3.2.1.min.js"></script>
+	<script src="ui/echarts.common.min.js"></script>
+	<script src="ui/wonderland.js"></script>
+</head>
+
+<body>
+	<script src="layui/layui.js"></script>
+	<script>
+		layui.use(['layer', 'form', 'element'], function () {
+			var layer = layui.layer,
+				form = layui.form,
+				element = layui.element;
+		});
+		$(function () {
+			var barOptionTemp = {
+				tooltip: {
+					trigger: 'axis',
+					axisPointer: {
+						type: 'shadow'
+					}
+				},
+				legend: {},
+				grid: {
+					top: 30,
+					left: 0,
+					right: '4%',
+					bottom: '5%',
+					containLabel: true
+				},
+				xAxis: [
+					{
+						type: 'category',
+						axisTick: {
+							alignWithLabel: true
+						}
+					}
+				],
+				yAxis: [
+					{
+						type: 'value'
+					}
+				]
+			};
+			var runsChart = echarts.init(document.getElementById('echartArea'), 'wonderland');
+			function loadRunsChart() {
+				 var barOption = $.extend(true, {}, barOptionTemp)
+				runsChart.showLoading();
+				$.ajax({
+					type: 'get',
+					url: 'rundetail.json',
+					dataType: 'json',
+					success: function (data) {
+						var legendData = [];
+						barOption.series = [];
+						var valarr = [];
+						for (var key in data)
+							for (var obj of data[key])
+								valarr.push(obj.value);
+						valarr.sort();
+						var xmin = valarr[0],
+							xmax = valarr.pop(),
+							xval = [];
+						for (var i = xmin; i <= xmax; i++)
+							xval.push(String(i));
+						for (var key in data) {
+							legendData.push(key);
+							var sdata = []
+							for (var i = 0; i <= xmax - xmin; i++)
+								sdata[i] = 0;
+							for (var obj of data[key]) {
+								sdata[obj.value] = obj.count
+							}
+							barOption.series.push({
+								name: key,
+								type: 'bar',
+								//barWidth: '30%',
+								data: sdata
+							});
+						}
+						barOption.xAxis[0].data = xval;
+						barOption.legend = {
+							data: legendData
+						}
+						runsChart.hideLoading();
+						runsChart.setOption(barOption);
+					}
+				});
+			}
+			loadRunsChart();
+		});
+	</script>
+	<div class="layui-header header header-index">
+		<div class="layui-main layui-row">
+			<a href="" class="logo ff-en">
+				<span><span class="tc-primary">E</span>vent<span class="tc-primary">D</span>B</span>
+			</a>
+			<form class="layui-form" id="searchInfo" action="">
+				<input type="text" placeholder="搜索数据表或run号" value="" class="layui-input">
+			</form>
+			<ul class="layui-nav" lay-filter="">
+				<li class="layui-nav-item">
+					<a href="">首页</a>
+				</li>
+				<li class="layui-nav-item layui-this">
+					<a href="">查看RUN</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="">查询历史</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;">项目介绍</a>
+					<dl class="layui-nav-child">
+						<dd>
+							<a href="">项目进度</a>
+						</dd>
+						<dd>
+							<a href="">项目成果</a>
+						</dd>
+						<dd>
+							<a href="">开发团队</a>
+						</dd>
+					</dl>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="layui-container" style="padding-bottom: 50px;">
+		<table class="layui-table">
+			<thead>
+				<tr>
+					<th width="100">项目</th>
+					<th>值</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Run号</td>
+					<td id="runIDs"></td>
+				</tr>
+				<tr>
+					<td>版本信息</td>
+					<td id="runVersions"></td>
+				</tr>
+				<tr>
+					<td>PROPERTY</td>
+					<td>
+						<form class="layui-form" action="">
+							<div class="layui-form-item" style="margin-bottom: 0px;">
+								<div class="layui-input-inline">
+									<select name="propertyName" lay-verify="required">
+										<option value="NTracks">NTracks</option>
+										<option value="NShowes">NShowes</option>
+										<option value="Nlambda">Nlambda</option>
+										<option value="Nalambda">Nalambda</option>
+										<option value="Nmup">Nmup</option>
+										<option value="Nmum">Nmum</option>
+										<option value="Nep">Nep</option>
+										<option value="Nem">Nem</option>
+										<option value="Npp">Npp</option>
+										<option value="Npm">Npm</option>
+										<option value="Neta">Neta</option>
+										<option value="Ngamma">Ngamma</option>
+										<option value="Nkp">Nkp</option>
+										<option value="Nkm">Nkm</option>
+										<option value="Nks">Nks</option>
+										<option value="Npip">Npip</option>
+										<option value="Npim">Npim</option>
+										<option value="Npi0">Npi0</option>
+										<option value="BeamEnergy">BeamEnergy</option>
+										<option value="BeamVx">BeamVx</option>
+										<option value="BeamVy">BeamVy</option>
+										<option value="BeamVz">BeamVz</option>
+									</select>
+								</div>
+							</div>
+						</form>
+					</td>
+				</tr>
+				<tr>
+					<td>Graph</td>
+					<td>
+						<div id="echartArea" style="width:850px; height: 450px; padding: 30px 0px 20px 20px;"></div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<div class="footer">
+		<p>© 2017
+			<a href="">xjtuosv.com</a> XJTU OSV EventDB</p>
+	</div>
+</body>
+
+</html>
