@@ -14,9 +14,10 @@ import pydoop.hdfs as hdfs
 
 #加载配置信息
 config = ConfigParser.ConfigParser()
-config.readfp(open('/root/eventdb/gx/evtQuery/config.ini','r'))
+config.readfp(open('./config.ini','r'))
 #hbase信息
 hbase_host = config.get('DB','host')
+hbase_port = int(config.get('DB', 'port'))
 table_prefix = config.get('DB','table_prefix')
 table_prefix_separator = config.get('DB','table_prefix_separator')
 hbase_timeout = int(config.get('DB','timeout'))
@@ -27,7 +28,7 @@ hdfs_user = config.get('HDFS', 'user')
 eventdb_dir = config.get('HDFS','eventdb_dir')
 #加载TypeSer.so
 double_lib_path = config.get('DOUBLE','double_lib_path')
-c_lib = cdll.LoadLibrary(double_lib_path+'/TypeSer.so')
+c_lib = cdll.LoadLibrary(double_lib_path)
 c_lib.DoubleS.restype = ctypes.c_char_p
 c_lib.DoubleS.argtypes=[ctypes.c_double]
 c_lib.IntS.argtypes=[ctypes.c_int]
@@ -35,7 +36,7 @@ c_lib.IntS.restype = ctypes.c_char_p
 #连接hdfs
 eventdb_fs = hdfs.hdfs(host = hdfs_host, port = hdfs_port, user = hdfs_user)
 #连接hbase
-eventdb_conn = happybase.Connection(host = hbase_host, table_prefix = table_prefix, table_prefix_separator = table_prefix_separator, timeout = hbase_timeout)
+eventdb_conn = happybase.Connection(host = hbase_host, port = hbase_port, table_prefix = table_prefix, table_prefix_separator = table_prefix_separator, timeout = hbase_timeout)
 eventdb_conn.open()
 
 #从hfile中读取json对象

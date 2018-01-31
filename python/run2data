@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+import ConfigParser
+from optparse import OptionParser
 import os
 import csv
 import ROOT
@@ -12,12 +14,29 @@ import ctypes
 import json
 import sys
 from multiprocessing import Pool, TimeoutError
-
 import psutil
-
 from ctypes import cast
 
-c_lib=cdll.LoadLibrary('./TypeSer.so')
+#加载配置信息
+config = ConfigParser.ConfigParser()
+config.readfp(open('./config.ini','r'))
+#hbase信息
+hbase_host = config.get('DB','host')
+hbase_port = int(config.get('DB', 'port'))
+table_prefix = config.get('DB','table_prefix')
+table_prefix_separator = config.get('DB','table_prefix_separator')
+hbase_timeout = int(config.get('DB','timeout'))
+#hdfs信息
+hdfs_host = config.get('HDFS','host')
+hdfs_port = int(config.get('HDFS','port'))
+hdfs_user = config.get('HDFS', 'user')
+eventdb_dir = config.get('HDFS','eventdb_dir')
+#加载TypeSer.so
+double_lib_path = config.get('DOUBLE','double_lib_path')
+#speedup
+processes = int(config.get('SPEEDUP', 'processes'))
+
+c_lib=cdll.LoadLibrary(double_lib_path)
 c_lib.DoubleS.restype = ctypes.c_void_p
 c_lib.DoubleS.argtypes=[ctypes.c_double]
 c_lib.IntS.argtypes=[ctypes.c_int]
@@ -28,7 +47,6 @@ libc.free.argtypes = [ctypes.c_void_p]
 
 folder = sys.argv[1]
 wdir = sys.argv[2]
-processes = int(sys.argv[3])
 
 def get_info(info):
 	return datetime.now().strftime('%Y-%m-%d %H:%M:%S') + ": " + info + ", process id " + os.getpid().__str__() + ", Occupied memory " + (psutil.Process(os.getpid()).memory_info()[0]/1024/1024).__str__() + "M"
