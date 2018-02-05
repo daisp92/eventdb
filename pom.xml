@@ -1,25 +1,27 @@
+<!--Project Object Model，项目对象模型，通过xml格式描述程序之间的依赖和程序管理相关信息，
+一般在阅读项目时需要先大致看下root模块的pom文件，便于理解程序的结构-->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion> <!--maven版本信息；-->
 
-	<groupId>org.osv.eventdb</groupId>
-	<artifactId>eventdb</artifactId>
+	<groupId>org.osv.eventdb</groupId> <!--组织名-->
+	<artifactId>eventdb</artifactId> <!--模块名-->
 	<version>1.2.0</version>
-	<packaging>jar</packaging>
+	<packaging>jar</packaging> <!--打包的格式，可以为：pom,jar,maven-plugin,ejb,war,ear,rar,par。web模块打包为war，子模块一般描述为pom-->
 
 	<name>eventdb</name>
 	<url>http://maven.apache.org</url>
 
-	<properties>
+	<properties> <!--通用配置和变量描述，一般将和子模块之间通用的一些配置变量抽象描述出来-->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
-	<dependencies>
+	<dependencies> <!--详细依赖描述-->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.7</version>
-			<scope>test</scope>
+			<scope>test</scope> <!--表示依赖项目的一个作用范围。test：这表示这种依赖只有测试的时候才需要，正常情况下是不需要的。-->
 		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
@@ -46,7 +48,8 @@
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-mapreduce-client-jobclient</artifactId>
 			<version>2.8.0</version>
-			<scope>provided</scope>
+			<scope>provided</scope> <!--provided：和compile类似，表示期望这个依赖项目在运行时由JDK或者容器来提供。
+			这种类型表示该依赖只有在测试和编译的情况下才有效，在运行时将由JDK或者容器提供。这种类型的依赖性是不可传递的。-->
 		</dependency>
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
@@ -57,7 +60,7 @@
 			<groupId>org.apache.hbase</groupId>
 			<artifactId>hbase</artifactId>
 			<version>1.2.6</version>
-			<type>pom</type>
+			<type>pom</type> <!--对应于依赖项目的packaging类型，默认是jar-->
 		</dependency>
 		<dependency>
 			<groupId>org.apache.hbase</groupId>
@@ -80,7 +83,7 @@
 			<version>1.1.1</version>
 		</dependency>
 	</dependencies>
-	<build>
+	<build> <!--构建设置-->
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
