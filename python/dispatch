@@ -1,14 +1,16 @@
+#把root文件根据run号分发到对应的子目录下
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-import os, shutil, sys
+import os, shutil, sys #shutil是python自带的复制备份的模块。函数有：shutil.copyfile(src,dst),move(src,dst),copymode,copystat,copy,copy2,copytree(olddir,newdir,True/False),rmtree(src)
 
-os.chdir(sys.argv[1])
-pwd = os.getcwd()
-file_list = os.listdir(pwd)
+os.chdir(sys.argv[1]) #os.chdir(path)改变当前工作目录到指定的路径：sys.argv[1]
+pwd = os.getcwd() #os.getcwd()返回当前进城的工作目录
+file_list = os.listdir(pwd) #os.listdir(path)返回指定文件夹包含的文件或文件夹的名字的列表。这个列表以字母顺序。不包括'.','..'即使她在文件夹中
 run_list = {}
 for each in file_list:
-	this_run = each.split("_")[2]
+	this_run = each.split("_")[1] #string.split(str=' ',num=string.count(str))其中，str是分隔符，默认为所有的空字符，包括空格，换行(\n)，制表符(\t)等。
+	#num表示分割次数。返回分割后的字符串列表。e.g.run_0009947_All_file001_SFO-1.root，分成：run,0009947,All,file001_SFO-1.root.因此这里应该选[1].此处把[2]改成[1]
 	if this_run not in run_list:
 		run_list[this_run] = [each]
 	else:
@@ -16,4 +18,4 @@ for each in file_list:
 for each in run_list:
 	os.mkdir(each)
 	for each_file in run_list[each]:
-		shutil.move(each_file, each)
+		shutil.move(each_file, each)  #把each_file移动到each目录下
