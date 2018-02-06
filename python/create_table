@@ -1,19 +1,21 @@
+#脚本create_table是新建hbase表。
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-import ConfigParser
+import ConfigParser  #ConfigParser是python内置模块，用来读取写入配置文件。读取.conf和.ini配置文件。
 from optparse import OptionParser
-import sys
+import sys #sys模块包含了与Python解释器和它的环境有关的函数。
 import os
 import ROOT
 import struct
-import happybase
+import happybase #HappyBase是Facebook开发的操作HBase的Python库，基于Python Thrift，但使用方式比Thrift简单简洁。
 from datetime import datetime,timedelta
 #加载配置信息
-config = ConfigParser.ConfigParser()
-config.readfp(open('./config.ini','r'))
+config = ConfigParser.ConfigParser() #初始化实例
+config.readfp(open('./config.ini','r')) #读取配置文件。readfp(fp[, filename]) ：从文件或fp（值使用该对象的readline()方法）
+#中的似文件类读取并解析配置数据，如果filename被省略，fp有一个name属性，该属性用于获取filename 。
 #hbase信息
-hbase_host = config.get('DB','host')
+hbase_host = config.get('DB','host') #获取'DB'section下的host.
 hbase_port = int(config.get('DB', 'port'))
 table_prefix = config.get('DB','table_prefix')
 table_prefix_separator = config.get('DB','table_prefix_separator')
@@ -24,9 +26,11 @@ hdfs_port = int(config.get('HDFS','port'))
 hdfs_user = config.get('HDFS', 'user')
 eventdb_dir = config.get('HDFS','eventdb_dir')
 
-new_table = sys.argv[1]
+new_table = sys.argv[1] #sys.argv这种方法的一个优势是这个名称不会与任何在你的程序中使用的argv变量冲突。另外，它也清晰地表明了这个名称是 sys 模块的一部分。
+#sys.argv包含了命令行参数的列表，即使用命令行传递给你的程序的参数。
 
+#自动连接 conn=happybase.Connection('somehost','port','tabel_prefix','table_prefix_separator')
 conn = happybase.Connection(host = hbase_host, port = hbase_port, table_prefix = table_prefix, table_prefix_separator = table_prefix_separator)
-conn.create_table(new_table, {'data': dict(max_versions = 1)})
+conn.create_table(new_table, {'data': dict(max_versions = 1)}) #建表，表名是命令行传来的参数new_table，列簇：data；
 
 print "Connect to HBase. table '%s' has been created."%(new_table)
