@@ -1,5 +1,5 @@
 #脚本create_table是新建hbase表。
-#!/usr/bin/python
+# !/usr/bin/python
 # -*- coding: UTF-8 -*-
 
 import ConfigParser  #ConfigParser是python内置模块，用来读取写入配置文件。读取.conf和.ini配置文件。
@@ -10,12 +10,14 @@ import ROOT
 import struct
 import happybase #HappyBase是Facebook开发的操作HBase的Python库，基于Python Thrift，但使用方式比Thrift简单简洁。
 from datetime import datetime,timedelta
+
 #加载配置信息
-config = ConfigParser.ConfigParser() #初始化实例
-config.readfp(open('./config.ini','r')) #读取配置文件。readfp(fp[, filename]) ：从文件或fp（值使用该对象的readline()方法）
-#中的似文件类读取并解析配置数据，如果filename被省略，fp有一个name属性，该属性用于获取filename 。
+config = ConfigParser.ConfigParser()  #初始化实例
+config.readfp(open('./config.ini','r')) 
+
+#读取配置文件。readfp(fp[, filename]) ：从文件或fp（值使用该对象的readline()方法）中的似文件类读取并解析配置数据，如果filename被省略，fp有一个name属性，该属性用于获取filename 。
 #hbase信息
-hbase_host = config.get('DB','host') #获取'DB'section下的host.
+hbase_host = config.get('DB','host')  #获取'DB'section下的host.
 hbase_port = int(config.get('DB', 'port'))
 table_prefix = config.get('DB','table_prefix')
 table_prefix_separator = config.get('DB','table_prefix_separator')
