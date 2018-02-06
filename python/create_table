@@ -18,7 +18,7 @@ config.readfp(open('./config.ini','r'))
 #读取配置文件。readfp(fp[, filename]) ：从文件或fp（值使用该对象的readline()方法）中的似文件类读取并解析配置数据，如果filename被省略，fp有一个name属性，该属性用于获取filename 。
 #hbase信息
 hbase_host = config.get('DB','host')  #获取'DB'section下的host.
-hbase_port = int(config.get('DB', 'port'))
+#hbase_port = int(config.get('DB', 'port'))
 table_prefix = config.get('DB','table_prefix')
 table_prefix_separator = config.get('DB','table_prefix_separator')
 hbase_timeout = int(config.get('DB','timeout'))
